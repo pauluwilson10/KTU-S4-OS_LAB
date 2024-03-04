@@ -1,0 +1,60 @@
+#include <stdio.h>
+#include<stdlib.h>
+#include<unistd.h>
+#include<sys/wait.h>
+
+int main(){
+    int pid;
+    pid=fork();
+    if(pid<0){
+        printf("Fork failed");
+    }
+    else if(pid==0){
+        execlp("/bin/date","date",NULL);
+        exit(0);
+    }
+    else{
+        printf("Process id is -%d\n",getpid());
+        wait(NULL);
+        exit(0);
+    }
+}
+
+
+#include <stdio.h>
+#include <sys/stat.h>
+int main(){
+    //pointer to start struct
+    struct stat sfile;
+    //stat system call
+    stat("hello.txt",&sfile);
+    //accessing st_mode (data number of stat struct)
+    printf("stmode = %o",sfile.st_mode);
+    printf("\nfile st_uid %d \n",sfile.st_uid);
+    printf("\nFile st_size %ld \n",sfile.st_size);
+    return 0;
+}
+
+
+#include <stdio.h>
+#include<dirent.h>
+#include<stdlib.h>
+struct dirent *dptr;
+int main(){
+    char buff[256];
+    DIR *dirp;
+    
+    printf("Ennter directory Name:");
+    scanf("%d",buff);
+    
+    if((dirp=opendir(buff))==NULL){
+        printf("Error");
+        exit(1);
+    }
+    while(dptr=readdir(dirp)){
+        printf("%s\n",dptr->d_name);
+    }
+    closedir(dirp);
+    reeturn 0;
+
+}
